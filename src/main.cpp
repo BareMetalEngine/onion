@@ -118,7 +118,7 @@ int main(int argc, char** argv)
 	}
     else
     {
-        std::cerr << "Unknown tool specified\n\n";
+        std::cerr << "Unknown tool specified :(\n\n";
         PrintUsage(argv[0]);
         return -1;
     }

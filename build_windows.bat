@@ -11,4 +11,5 @@ cmake --build . --config Release
 
 popd
 
+copy .build\bin\Release\onion.exe bin\
 bin\onion.exe autoRelease
