@@ -34,13 +34,6 @@ int ToolAutoRelease::run(const char* argv0, const Commandline& cmdline)
 		return -1;
 	}
 
-	GitHubConfig git;
-	if (!git.init(cmdline))
-	{
-		std::cerr << KRED << "[BREAKING] Failed to initialize GitHub helper\n" << RST;
-		return -1;
-	}
-
 	//--
 
 	const auto rootPath = builderExecutablePath.parent_path().parent_path().make_preferred();
