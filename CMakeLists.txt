@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
-set(CMAKE_CONFIGURATION_TYPES "Relase")
+set(CMAKE_CONFIGURATION_TYPES "Release")
 
 include_directories("src/")
 
@@ -31,20 +31,31 @@ list(APPEND FILE_SOURCES "src/projectManifest.cpp")
 list(APPEND FILE_SOURCES "src/solutionGenerator.cpp")
 list(APPEND FILE_SOURCES "src/solutionGeneratorCMAKE.cpp")
 list(APPEND FILE_SOURCES "src/solutionGeneratorVS.cpp")
+list(APPEND FILE_SOURCES "src/libraryManifest.cpp")
 list(APPEND FILE_SOURCES "src/toolMake.cpp")
 list(APPEND FILE_SOURCES "src/toolReflection.cpp")
 list(APPEND FILE_SOURCES "src/toolEmbed.cpp")
 list(APPEND FILE_SOURCES "src/toolConfigure.cpp")
 list(APPEND FILE_SOURCES "src/toolBuild.cpp")
+list(APPEND FILE_SOURCES "src/toolLibrary.cpp")
+list(APPEND FILE_SOURCES "src/toolRelease.cpp")
+list(APPEND FILE_SOURCES "src/toolAutoRelease.cpp")
 list(APPEND FILE_SOURCES "src/utils.cpp")
+list(APPEND FILE_SOURCES "src/git.cpp")
+list(APPEND FILE_SOURCES "src/json.cpp")
 
-find_package(Curses REQUIRED)
-include_directories(${CURSES_INCLUDE_DIR})
+if (NOT WIN32)
+	find_package(Curses REQUIRED)
+	include_directories(${CURSES_INCLUDE_DIR})
+endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 add_executable(onion ${FILE_SOURCES})
-target_link_libraries(onion ${CURSES_LIBRARIES})
+
+if (NOT WIN32)
+	target_link_libraries(onion ${CURSES_LIBRARIES})
+endif()
 
 set_target_properties(onion
     PROPERTIES
