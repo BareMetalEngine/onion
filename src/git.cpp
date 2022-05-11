@@ -177,6 +177,8 @@ std::string GitHubConfig::GetRemoteUser(const fs::path& path)
 {
 	const auto remote = GetRemote(path);
 	auto name = PartAfter(remote, "github.com/");
+	if (name.empty())
+		name = PartAfter(remote, "git@github.com:");
 	name = PartBefore(name, "/");
 	return std::string(name);
 }
