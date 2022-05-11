@@ -4,8 +4,7 @@ orbs:
   win: circleci/windows@2.2.0
 
 jobs:
-  compile_windows:
-    context: main
+  compile_windows:    
     executor: win/default
     steps:
       - checkout
@@ -16,3 +15,5 @@ workflows:
   say-hello-workflow:
     jobs:
       - compile_windows
+          context: 
+            - main
