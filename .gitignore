@@ -1,6 +1,7 @@
 bin
 .build
 .gittoken
+.gittoken_
 .release
 .publish
 .temp
