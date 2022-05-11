@@ -55,7 +55,6 @@ bool GitHubConfig::init(const fs::path& initPath, const Commandline& cmdLine)
 
 	std::cout << "[GIT] Path: " << path << "\n";
 	std::cout << "[GIT] Token: '" << token << "'\n";
-	std::cout << "[GIT] Token2: '" << token.substr(0, 4) << "-" << token.substr(4) << "'\n";
 	std::cout << "[GIT] Branch: '" << branch << "'\n";
 	std::cout << "[GIT] Head: '" << head << "'\n";
 	std::cout << "[GIT] Remote: '" << remote << "'\n";
@@ -131,7 +130,10 @@ std::string GitHubConfig::GetPublicToken(const fs::path& path)
 
 	const char* str = std::getenv("ONION_GIT_PUBLIC_TOKEN");
 	if (str && *str)
+	{
+		str = "%ONION_GIT_PUBLIC_TOKEN%";
 		return str;
+	}
 
 	std::cerr << KRED << "[BREAKING] Failed to retrieve GitHub access token\n" << RST;
 	return "";
