@@ -7,6 +7,7 @@
 #include "toolBuild.h"
 #include "toolLibrary.h"
 #include "toolRelease.h"
+#include "toolGlueFiles.h"
 #include "toolAutoRelease.h"
 
 static bool NeedsQuotes(std::string_view txt)
@@ -114,6 +115,11 @@ int main(int argc, char** argv)
 	else if (tool == "autoRelease")
 	{
 		ToolAutoRelease tool;
+		return tool.run(argv[0], cmdLine);
+	}
+	else if (tool == "glue")
+	{
+		ToolGlueFiles tool;
 		return tool.run(argv[0], cmdLine);
 	}
     else

@@ -2,15 +2,16 @@
 #include "utils.h"
 #include "configuration.h"
 #include "fileGenerator.h"
+#include "fileRepository.h"
 #include "project.h"
 #include "projectManifest.h"
 #include "solutionGeneratorVS.h"
 #include "externalLibrary.h"
 
-SolutionGeneratorVS::SolutionGeneratorVS(const Configuration& config, std::string_view mainGroup)
-    : SolutionGenerator(config, mainGroup)
+SolutionGeneratorVS::SolutionGeneratorVS(FileRepository& files, const Configuration& config, std::string_view mainGroup)
+    : SolutionGenerator(files, config, mainGroup)
 {
-    m_visualStudioScriptsPath = config.builderEnvPath / "vs";
+    m_files.resolveDirectoryPath("vs", m_visualStudioScriptsPath);
 
     if (config.generator == GeneratorType::VisualStudio19)
     {
@@ -360,10 +361,14 @@ bool SolutionGeneratorVS::generateSourcesProjectFile(const SolutionProject* proj
 
     if (!m_config.staticBuild) // tool paths for runtime rebuilds
     {
-		const auto bisonExecutablePath = (m_config.builderEnvPath / "tools/bison/windows/win_bison.exe").make_preferred();
+        fs::path toolPath;
+        if (m_files.resolveDirectoryPath("tools/bison/windows/", toolPath))
+        {
+            const auto bisonExecutablePath = (toolPath / "win_bison.exe").make_preferred();
+            writelnf(f, " 	<ProjectBisonToolPath>%s</ProjectBisonToolPath>", bisonExecutablePath.u8string().c_str());
+        }
 
 		writelnf(f, " 	<ProjectOnionExecutable>%s</ProjectOnionExecutable>", m_config.builderExecutablePath.u8string().c_str());
-        writelnf(f, " 	<ProjectBisonToolPath>%s</ProjectBisonToolPath>", bisonExecutablePath.u8string().c_str());
     }
 
 	if (project->optionWarningLevel == 0)

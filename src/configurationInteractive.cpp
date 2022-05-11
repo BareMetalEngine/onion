@@ -113,7 +113,7 @@ static void PrintConfig(const Configuration& cfg)
 
 bool RunInteractiveConfig(Configuration& cfg)
 {
-    const auto configPath = cfg.builderEnvPath / ".buildConfig";
+    const auto configPath = cfg.configPath;// builderEnvPath / ".buildConfig";
 
     if (cfg.load(configPath))
     {

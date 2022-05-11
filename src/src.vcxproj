@@ -75,9 +75,30 @@
     <ClCompile Include="externalLibrary.cpp" />
     <ClCompile Include="externalLibraryRepository.cpp" />
     <ClCompile Include="fileGenerator.cpp" />
+    <ClCompile Include="fileRepository.cpp" />
     <ClCompile Include="git.cpp" />
     <ClCompile Include="json.cpp" />
     <ClCompile Include="libraryManifest.cpp" />
+    <ClCompile Include="lz4\lz4.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lz4\lz4file.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lz4\lz4frame.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lz4\lz4hc.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lz4\xxhash.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="main.cpp">
     </ClCompile>
     <ClCompile Include="moduleConfiguration.cpp" />
@@ -93,6 +114,7 @@
     <ClCompile Include="toolBuild.cpp" />
     <ClCompile Include="toolConfigure.cpp" />
     <ClCompile Include="toolEmbed.cpp" />
+    <ClCompile Include="toolGlueFiles.cpp" />
     <ClCompile Include="toolLibrary.cpp" />
     <ClCompile Include="toolMake.cpp" />
     <ClCompile Include="toolRelease.cpp" />
@@ -108,9 +130,16 @@
     <ClInclude Include="externalLibrary.h" />
     <ClInclude Include="externalLibraryRepository.h" />
     <ClInclude Include="fileGenerator.h" />
+    <ClInclude Include="fileRepository.h" />
     <ClInclude Include="git.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="libraryManifest.h" />
+    <ClInclude Include="lz4\lz4.h" />
+    <ClInclude Include="lz4\lz4file.h" />
+    <ClInclude Include="lz4\lz4frame.h" />
+    <ClInclude Include="lz4\lz4frame_static.h" />
+    <ClInclude Include="lz4\lz4hc.h" />
+    <ClInclude Include="lz4\xxhash.h" />
     <ClInclude Include="moduleConfiguration.h" />
     <ClInclude Include="moduleManifest.h" />
     <ClInclude Include="moduleRepository.h" />
@@ -124,6 +153,7 @@
     <ClInclude Include="toolBuild.h" />
     <ClInclude Include="toolConfigure.h" />
     <ClInclude Include="toolEmbed.h" />
+    <ClInclude Include="toolGlueFiles.h" />
     <ClInclude Include="toolLibrary.h" />
     <ClInclude Include="toolMake.h" />
     <ClInclude Include="toolRelease.h" />

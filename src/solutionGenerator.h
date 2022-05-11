@@ -99,10 +99,12 @@ struct SolutionProject
 
 //--
 
+class FileRepository;
+
 class SolutionGenerator
 {
 public:
-    SolutionGenerator(const Configuration& config, std::string_view mainGroup);
+    SolutionGenerator(FileRepository& files, const Configuration& config, std::string_view mainGroup);
     virtual ~SolutionGenerator();
 
     inline SolutionGroup* rootGroup() const { return m_rootGroup; }
@@ -117,6 +119,7 @@ public:
 
 protected:
 	const Configuration& m_config;
+	FileRepository& m_files;
 
 	//---
 

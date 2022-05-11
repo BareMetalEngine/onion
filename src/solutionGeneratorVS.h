@@ -7,7 +7,7 @@
 class SolutionGeneratorVS : public SolutionGenerator
 {
 public:
-    SolutionGeneratorVS(const Configuration& config, std::string_view mainGroup);
+    SolutionGeneratorVS(FileRepository& files, const Configuration& config, std::string_view mainGroup);
 
     virtual bool generateSolution(FileGenerator& gen) override final;
     virtual bool generateProjects(FileGenerator& gen) override final;

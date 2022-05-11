@@ -12,10 +12,12 @@ struct Configuration
     LibraryType libs;
     ConfigurationType configuration;
 
+    fs::path configPath;
     fs::path builderExecutablePath;
-    fs::path builderEnvPath;
+    //fs::path builderEnvPath;
 
     fs::path modulePath; // path to root configured module directory
+    fs::path tempPath; // shared temp folder
     fs::path solutionPath; // build folder
     fs::path deployPath; // "bin" folder when all crap is written
 

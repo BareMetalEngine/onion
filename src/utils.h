@@ -108,6 +108,22 @@ extern bool LoadFileToBuffer(const fs::path& path, std::vector<uint8_t>& outBuff
 
 extern bool SaveFileFromString(const fs::path& path, std::string_view txt, bool force = false, bool print = true, uint32_t* outCounter=nullptr, fs::file_time_type customTime = fs::file_time_type());
 
+extern bool SaveFileFromBuffer(const fs::path& path, const std::vector<uint8_t>& buffer, bool force = false, bool print = true, uint32_t* outCounter = nullptr, fs::file_time_type customTime = fs::file_time_type());
+
+//--
+
+extern uint64_t Crc64(uint64_t crc, const uint8_t* s, uint64_t l);
+
+extern uint64_t Crc64(const uint8_t* s, uint64_t l);
+
+//--
+
+extern bool CompressLZ4(const void* data, uint32_t size, std::vector<uint8_t>& outBuffer);
+extern bool CompressLZ4(const std::vector<uint8_t>& uncompressedData, std::vector<uint8_t>& outBuffer);
+
+extern bool DecompressLZ4(const void* data, uint32_t size, std::vector<uint8_t>& outBuffer);
+extern bool DecompressLZ4(const std::vector<uint8_t>& compresedData, std::vector<uint8_t>& outBuffer);
+
 //--
 
 extern bool RunWithArgs(std::string_view cmd, int* outCode = nullptr);

@@ -35,6 +35,10 @@
       "Command": "library"
     },
     {
+      "Id": "58756693-b3c5-4994-aeed-6e9a93e52b9c",
+      "Command": "glue -source=\"Z:\\internal\\onion\\files\""
+    },
+    {
       "Id": "d63bacc8-690e-4a9f-abda-0dad08aa2f3e",
       "Command": "autoRelease"
     },
@@ -47,12 +51,40 @@
       "Command": "-module=\"Z:\\internal\\onion_test\\app_self_contained\""
     },
     {
+      "Id": "71c57d14-0de9-470e-a371-e38d750e8083",
+      "Command": "-file=\"Z:\\internal\\onion_packing\\test.dat\""
+    },
+    {
+      "Id": "20606617-a94d-47e1-80e1-90d66f378e81",
+      "Command": "-file=\"Z:\\internal\\onion\\.release\\onion.exe\""
+    },
+    {
+      "Id": "85148701-ce47-4c8d-8dde-c43123f6e36f",
+      "Command": "-target=\"Z:\\test\""
+    },
+    {
       "Id": "1410c703-d13c-41c5-87f1-c9d343dadec1",
       "Command": "-action=create"
     },
     {
+      "Id": "fc686cd0-0453-471d-a221-d7a04baccd0d",
+      "Command": "-action=add"
+    },
+    {
       "Id": "80d820b9-513e-43de-9f42-c88875940822",
+      "Command": "-action=clear"
+    },
+    {
+      "Id": "54323276-a5ff-4e65-bd12-091c7ff30e39",
+      "Command": "-action=pack"
+    },
+    {
+      "Id": "c1f04eab-ace1-4f19-a612-a5c33c79a9b7",
       "Command": "-action=list"
+    },
+    {
+      "Id": "fd561f7c-1b1c-4f67-9122-31f36475ff9a",
+      "Command": "-action=unpack"
     },
     {
       "Id": "76b55ef7-3e4d-4856-b580-2bebfdf2635b",

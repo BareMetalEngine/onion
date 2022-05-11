@@ -2,6 +2,7 @@
 #include "toolMake.h"
 #include "toolReflection.h"
 #include "fileGenerator.h"
+#include "fileRepository.h"
 #include "configuration.h"
 #include "configurationList.h"
 #include "configurationInteractive.h"
@@ -17,12 +18,12 @@
 
 //--
 
-static std::unique_ptr<SolutionGenerator> CreateSolutionGenerator(const Configuration& config, std::string_view mainModuleName)
+static std::unique_ptr<SolutionGenerator> CreateSolutionGenerator(FileRepository& files, const Configuration& config, std::string_view mainModuleName)
 {
     if (config.generator == GeneratorType::VisualStudio22 || config.generator == GeneratorType::VisualStudio19)
-        return std::make_unique<SolutionGeneratorVS>(config, mainModuleName);
+        return std::make_unique<SolutionGeneratorVS>(files, config, mainModuleName);
     else if (config.generator == GeneratorType::CMake)
-        return std::make_unique<SolutionGeneratorCMAKE>(config, mainModuleName);
+        return std::make_unique<SolutionGeneratorCMAKE>(files, config, mainModuleName);
     else
         return nullptr;
 }
@@ -156,7 +157,16 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
 
     //--
 
-	auto codeGenerator = CreateSolutionGenerator(config, moduleConfig->name);
+    FileRepository fileRepository;
+    if (!fileRepository.initialize(config.builderExecutablePath, config.tempPath))
+    {
+		std::cerr << KRED << "[BREAKING] Failed to initialize file repository\n" << RST;
+		return -1;
+    }
+
+    //--
+
+	auto codeGenerator = CreateSolutionGenerator(fileRepository, config, moduleConfig->name);
     if (!codeGenerator)
     {
 		std::cerr << KRED << "[BREAKING] Failed to create code generator\n" << RST;

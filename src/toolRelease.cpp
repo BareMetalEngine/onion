@@ -125,7 +125,7 @@ bool Release_GetNextVersion(GitHubConfig& git, const Commandline& cmdline, std::
 
 static fs::path Release_ReleaseTokenFilePath(const GitHubConfig& git)
 {
-	const auto releaseTokenFilePath = fs::weakly_canonical(fs::path(git.path / ".release").make_preferred());
+	const auto releaseTokenFilePath = fs::weakly_canonical(fs::path(git.path / ".release_token").make_preferred());
 	return releaseTokenFilePath;
 }
 
@@ -312,6 +312,66 @@ static bool Release_Publish(GitHubConfig& git, const Commandline& cmdline)
 	return true;
 }
 
+static bool Release_AddArtifact(GitHubConfig& git, const Commandline& cmdline)
+{
+	// we have active release, we can't stare a new one
+	std::string releaseId;
+	if (!Release_GetCurrentReleaseId(git, cmdline, releaseId))
+	{
+		std::cerr << KRED << "[BREAKING] There's no active release in progress\n" << RST;
+		return false;
+	}
+
+	// get path to file to publish
+	const auto filePath = fs::weakly_canonical(cmdline.get("file"));
+	if (!fs::is_regular_file(filePath))
+	{
+		std::cerr << KRED << "[BREAKING] File " << filePath << " does not exist, there's nothing to publish" << RST;
+		return false;
+	}
+
+	// asset file name
+	const auto assetFileName = filePath.filename().u8string();
+
+	// list all current artifacts of the release
+	std::vector<GitArtifactInfo> artifacts;
+	if (!GitApi_ListReleaseArtifacts(git, releaseId, artifacts))
+	{
+		std::cerr << KRED << "[BREAKING] Failed to list git artifacts for release '" << releaseId << "\n" << RST;
+		return false;
+	}
+
+	// check if we have existing deployment of such file
+	{
+		std::string matchingAssetID;
+		for (const auto& info : artifacts)
+		{
+			if (info.name == assetFileName)
+			{
+				matchingAssetID = info.id;
+				break;
+			}
+		}
+
+		if (!matchingAssetID.empty())
+		{
+			std::cout << "Github Release Asset for '" << assetFileName << "' in release '" << releaseId << "' already found at ID " << matchingAssetID << "\n";
+			return false;
+		}
+	}
+
+	// push asset
+	{
+		if (!GitApi_UploadReleaseArtifact(git, releaseId, assetFileName, filePath))
+		{
+			std::cerr << KRED << "[BREAKING] Upload failed" << RST;
+			return false;
+		}
+	}
+
+	return true;
+}
+
 int ToolRelease::run(const char* argv0, const Commandline& cmdline)
 {
 	const auto builderExecutablePath = fs::absolute(argv0);
@@ -350,6 +410,11 @@ int ToolRelease::run(const char* argv0, const Commandline& cmdline)
 	else if (action == "list")
 	{
 		if (!Release_List(git, cmdline))
+			return -1;
+	}
+	else if (action == "add")
+	{
+		if (!Release_AddArtifact(git, cmdline))
 			return -1;
 	}
 	else

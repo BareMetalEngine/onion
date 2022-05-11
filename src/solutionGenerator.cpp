@@ -7,6 +7,7 @@
 #include "externalLibrary.h"
 #include "moduleManifest.h"
 #include "fileGenerator.h"
+#include "fileRepository.h"
 #include "solutionGenerator.h"
 #include "toolEmbed.h"
 #include "toolReflection.h"
@@ -43,8 +44,9 @@ SolutionProject::~SolutionProject()
 
 //--
 
-SolutionGenerator::SolutionGenerator(const Configuration& config, std::string_view mainGroup)
+SolutionGenerator::SolutionGenerator(FileRepository& files, const Configuration& config, std::string_view mainGroup)
     : m_config(config)
+    , m_files(files)
 {
     m_rootGroup = new SolutionGroup;
     m_rootGroup->name = mainGroup;
@@ -354,29 +356,36 @@ bool SolutionGenerator::generateAutomaticCodeForProject(SolutionProject* project
     // Google test framework files
     if (project->type == ProjectType::TestApplication)
     {
-        const auto gtestRoot = m_config.builderEnvPath / "tools/gtest";
+		// sources 
+		static const char* gtestFiles[] = {
+			"gtest-assertion-result.cc", "gtest-death-test.cc", "gtest-filepath.cc", "gtest-matchers.cc",
+			"gtest-port.cc", "gtest-printers.cc", "gtest-test-part.cc", "gtest-typed-test.cc", "gtest.cc"
+		};
 
-        // Add include path
-        {
-            const auto gtestIncludePath = gtestRoot / "include";
-            project->additionalIncludePaths.push_back(gtestIncludePath);
-        }
+		// extract includes
+		{
+			fs::path fullPath;
+			if (m_files.resolveDirectoryPath("tools/gtest/include", fullPath))
+			{
+                project->additionalIncludePaths.push_back(fullPath);
+			}
+		}
 
-        // sources 
-        static const char* gtestFiles[] = {
-            "gtest-assertion-result.cc", "gtest-death-test.cc", "gtest-filepath.cc", "gtest-matchers.cc",
-            "gtest-port.cc", "gtest-printers.cc", "gtest-test-part.cc", "gtest-typed-test.cc", "gtest.cc"
-        };
-
-        // files
+        // extract the source code files
         for (const auto* sourceFileName : gtestFiles)
         {
-            auto* info = new SolutionProjectFile;
-            info->type = ProjectFileType::CppSource;
-            info->absolutePath = gtestRoot / "src" / sourceFileName;
-            info->filterPath = "_gtest";
-            info->name = sourceFileName;
-            project->files.push_back(info);
+            const auto localPath = std::string("tools/gtest/") + sourceFileName;
+
+            fs::path fullPath;
+            if (m_files.resolveFilePath(localPath, fullPath))
+            {
+                auto* info = new SolutionProjectFile;
+                info->type = ProjectFileType::CppSource;
+                info->absolutePath = fullPath;
+                info->filterPath = "_gtest";
+                info->name = sourceFileName;
+                project->files.push_back(info);
+            }
         }
     }
 
@@ -1170,9 +1179,17 @@ bool SolutionGenerator::processBisonFile(SolutionProject* project, const Solutio
     if (m_config.staticBuild)
     {
 #ifdef _WIN32
-		const auto executablePath = (m_config.builderEnvPath / "tools/bison/windows/win_bison.exe").make_preferred();
+		fs::path toolPath;
+        if (!m_files.resolveDirectoryPath("tools/bison/windows", toolPath))
+            return false;
+
+		const auto executablePath = (toolPath / "win_bison.exe").make_preferred();
 #else
-		const auto executablePath = (m_config.builderEnvPath / "tools/bison/linux/run_bison.sh").make_preferred();
+		fs::path toolPath;
+		if (!m_files.resolveDirectoryPath("tools/bison/linux", toolPath))
+			return false;
+
+		const auto executablePath = (toolPath / "run_bison.sh").make_preferred();
 #endif
 
         if (IsFileSourceNewer(file->absolutePath, parserFile))

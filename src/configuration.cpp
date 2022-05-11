@@ -64,7 +64,7 @@ bool Configuration::load(const fs::path& path)
 
 bool Configuration::parseOptions(const char* path, const Commandline& cmd)
 {
-    builderExecutablePath = fs::absolute(path);
+    /*builderExecutablePath = fs::absolute(path);
     if (!fs::is_regular_file(builderExecutablePath))
     {
         std::cout << "Invalid local executable name: " << builderExecutablePath << "\n";
@@ -84,7 +84,7 @@ bool Configuration::parseOptions(const char* path, const Commandline& cmd)
     {
         std::cout << "BuildTool is run from invalid directory and does not have required local files (cmake folder is missing)\n";
         return false;
-    }
+    }*/
 
     {
         const auto& str = cmd.get("build");
@@ -235,13 +235,15 @@ bool Configuration::parsePaths(const char* executable, const Commandline& cmd)
             //std::cout << "No output directory specified, using default one\n";
 
             std::string solutionPartialPath = ".temp/";
-            solutionPartialPath += mergedName();
+            this->tempPath = buildPath / solutionPartialPath;
 
+			solutionPartialPath += mergedName();
             this->solutionPath = buildPath / solutionPartialPath;
         }
         else
         {
             this->solutionPath = fs::weakly_canonical(fs::absolute(fs::path(str).make_preferred()));
+            this->tempPath = this->solutionPath;
         }
 
         std::error_code ec;

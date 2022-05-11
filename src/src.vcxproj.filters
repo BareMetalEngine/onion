@@ -31,6 +31,23 @@
     <ClCompile Include="json.cpp" />
     <ClCompile Include="git.cpp" />
     <ClCompile Include="toolAutoRelease.cpp" />
+    <ClCompile Include="toolGlueFiles.cpp" />
+    <ClCompile Include="fileRepository.cpp" />
+    <ClCompile Include="lz4\lz4frame.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="lz4\lz4hc.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="lz4\xxhash.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="lz4\lz4.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="lz4\lz4file.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -75,6 +92,26 @@
     <ClInclude Include="json.h" />
     <ClInclude Include="git.h" />
     <ClInclude Include="toolAutoRelease.h" />
+    <ClInclude Include="toolGlueFiles.h" />
+    <ClInclude Include="fileRepository.h" />
+    <ClInclude Include="lz4\lz4frame.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="lz4\lz4frame_static.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="lz4\lz4hc.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="lz4\xxhash.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="lz4\lz4.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="lz4\lz4file.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\base\config\build.lua" />
@@ -82,6 +119,9 @@
   <ItemGroup>
     <Filter Include="xml">
       <UniqueIdentifier>{328bebbc-3735-4d69-95dd-71498a14c55b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lz4">
+      <UniqueIdentifier>{7cd0ee31-b0ac-4fca-8365-ab9681d0df72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

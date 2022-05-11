@@ -5,12 +5,13 @@
 #include "externalLibrary.h"
 #include "configuration.h"
 #include "fileGenerator.h"
+#include "fileRepository.h"
 #include "solutionGeneratorCMAKE.h"
 
-SolutionGeneratorCMAKE::SolutionGeneratorCMAKE(const Configuration& config, std::string_view mainGroup)
-    : SolutionGenerator(config, mainGroup)
+SolutionGeneratorCMAKE::SolutionGeneratorCMAKE(FileRepository& files, const Configuration& config, std::string_view mainGroup)
+    : SolutionGenerator(files, config, mainGroup)
 {
-    m_cmakeScriptsPath = config.builderEnvPath / "cmake";
+    m_files.resolveDirectoryPath("cmake", m_cmakeScriptsPath);
 }
 
 static const char* NameCMakeConfiguration(ConfigurationType config)
