@@ -131,7 +131,7 @@ std::string GitHubConfig::GetPublicToken(const fs::path& path)
 	const char* str = std::getenv("ONION_GIT_PUBLIC_TOKEN");
 	if (str && *str)
 	{
-		str = "%ONION_GIT_PUBLIC_TOKEN%";
+		std::system("echo Token is: '%ONION_GIT_PUBLIC_TOKEN%'");
 		return str;
 	}
 
