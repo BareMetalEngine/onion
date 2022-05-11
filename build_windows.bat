@@ -1,5 +1,12 @@
 @ECHO OFF
 
+IF "%ONION_GIT_PUBLIC_TOKEN%" == "" (
+	ECHO "No ONION_GIT_PUBLIC_TOKEN set"
+	EXIT /B 1
+) else (
+	ECHO Using git token: "%ONION_GIT_PUBLIC_TOKEN%"	
+)
+
 set MAIN_DIR=%cd%
 set OUTPUT_BINARY=%MAIN_DIR%\.build\bin\Release\onion.exe
 set RELEASE_DIR=%MAIN_DIR%\.release

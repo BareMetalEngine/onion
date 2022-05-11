@@ -55,6 +55,7 @@ bool GitHubConfig::init(const fs::path& initPath, const Commandline& cmdLine)
 
 	std::cout << "[GIT] Path: " << path << "\n";
 	std::cout << "[GIT] Token: '" << token << "'\n";
+	std::cout << "[GIT] Token2: '" << token.substr(0, 4) << "-" << token.substr(4) << "'\n";
 	std::cout << "[GIT] Branch: '" << branch << "'\n";
 	std::cout << "[GIT] Head: '" << head << "'\n";
 	std::cout << "[GIT] Remote: '" << remote << "'\n";
