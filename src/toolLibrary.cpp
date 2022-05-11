@@ -743,12 +743,12 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 	if (!fs::is_regular_file(builderExecutablePath))
 	{
 		std::cerr << KRED << "[BREAKING] Invalid local executable name: " << builderExecutablePath << "\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	ToolLibraryConfig config;
 	if (!ParseArgs(cmdline, config))
-		return -1;
+		return 1;
 
 	//--
 
@@ -759,7 +759,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 	if (!library)
 	{
 		std::cerr << KRED << "[BREAKING] Failed to load library manifest from " << config.libraryManifestPath << "\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	config.srcPath = (config.srcRootPath / library->name).make_preferred();
@@ -779,13 +779,13 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!git.init(libraryRoot, cmdline))
 		{
 			std::cerr << KRED << "[BREAKING] Failed to initialize Git for release mode\n" << RST;
-			return -1;
+			return-1;
 		}
 
 		if (!Release_GetCurrentReleaseId(git, cmdline, releaseId))
 		{
 			std::cerr << KRED << "[BREAKING] No active release in progress\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -794,7 +794,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!LibraryCloneRepo(*library, config))
 		{
 			std::cerr << KRED << "[BREAKING] Clone step for library " << library->name << " failed\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -803,7 +803,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!LibraryConfigure(*library, config))
 		{
 			std::cerr << KRED << "[BREAKING] Configure step for library " << library->name << " failed\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -812,7 +812,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!LibraryBuild(*library, config))
 		{
 			std::cerr << KRED << "[BREAKING] Build step for library " << library->name << " failed\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -821,7 +821,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!LibraryDeploy(*library, config))
 		{
 			std::cerr << KRED << "[BREAKING] Deploy step for library " << library->name << " failed\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -830,7 +830,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!LibraryPackage(*library, config))
 		{
 			std::cerr << KRED << "[BREAKING] Package step for library " << library->name << " failed\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -839,7 +839,7 @@ int ToolLibrary::run(const char* argv0, const Commandline& cmdline)
 		if (!LibraryRelease(git, *library, config, releaseId))
 		{
 			std::cerr << KRED << "[BREAKING] Release step for library " << library->name << " failed\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 

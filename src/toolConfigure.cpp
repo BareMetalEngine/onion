@@ -536,7 +536,7 @@ int ToolConfigure::run(const char* argv0, const Commandline& cmdline)
 	if (!resolver.processModuleFile(modulePath, true))
 	{
 		std::cerr << KRED << "[BREAKING] Configuration failed\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	// export resolved configuration
@@ -545,14 +545,14 @@ int ToolConfigure::run(const char* argv0, const Commandline& cmdline)
 	if (!resolver.exportToManifest(config))
 	{
 		std::cerr << KRED << "[BREAKING] Configuration export failed\n" << RST;
-		return -1;
+		return-1;
 	}
 
 	// write configuration file
 	if (!config.save(configPath))
 	{
 		std::cerr << KRED << "[BREAKING] Configuration saving failed\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	std::cout << KGRN << "Configuration saved\n" << RST;

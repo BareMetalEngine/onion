@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   compile_windows:
+    context: main
     executor: win/default
     steps:
       - checkout

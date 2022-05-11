@@ -66,7 +66,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     Configuration config;
     if (!config.parseOptions(argv0, cmdline)) {
         std::cerr << KRED << "[BREAKING] Invalid/incomplete configuration\n" << RST;
-        return -1;
+        return 1;
     }
 
     if (cmdline.has("interactive"))
@@ -75,7 +75,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
 
     if (!config.parsePaths(argv0, cmdline)) {
         std::cerr << KRED << "[BREAKING] Invalid/incomplete configuration\n" << RST;
-        return -1;
+        return 1;
     }
 
     //--
@@ -93,7 +93,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
             std::cerr << KRED << "[BREAKING] Module at \"" << config.modulePath << "\" was not configured, run:\nonion configure -module=\"" << config.modulePath << "\"\n" << RST;
         else
 			std::cerr << KRED << "[BREAKING] Directory \"" << config.modulePath << "\" does not contain properly configured module (or any module to be fair)\n" << RST;
-		return -1;
+		return 1;
     }
 
     const bool verifyVersions = !cmdline.has("noverify");
@@ -102,7 +102,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!modules.installConfiguredModules(*moduleConfig, verifyVersions))
     {
         std::cerr << KRED << "[BREAKING] Failed to verify configured module at \"" << config.modulePath << "\"\n" << RST;
-        return -1;
+        return 1;
     }
 
     //--
@@ -121,19 +121,19 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!structure.populateFromModules(modules.modules(), config))
     {
         std::cerr << KRED << "[BREAKING] Failed to populate project structure from installed modules\n" << RST;
-        return -1;
+        return 1;
     }
 
     if (!structure.filterProjects(config))
     {
         std::cerr << KRED << "[BREAKING] Failed to filter project structure\n" << RST;
-        return -1;
+        return 1;
     }
 
     if (!structure.resolveDependencies(libraries, config))
     {
         std::cerr << KRED << "[BREAKING] Failed to filter project structure\n" << RST;
-        return -1;
+        return 1;
     }
 
     //--
@@ -142,7 +142,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!structure.scanContent(totalFiles))
     {
         std::cerr << KRED << "[BREAKING] Failed to scan project's content\n" << RST;
-        return -1;
+        return 1;
     }
 
     std::cout << "Found " << totalFiles << " total file(s) across " << structure.projects().size() << " project(s) from " << modules.modules().size() << " module(s)\n";
@@ -152,7 +152,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!libraries.deployFiles(config.deployPath))
     {
 		std::cerr << KRED << "[BREAKING] Failed to deploy library files\n" << RST;
-		return -1;
+		return 1;
     }
 
     //--
@@ -161,7 +161,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!fileRepository.initialize(config.builderExecutablePath, config.tempPath))
     {
 		std::cerr << KRED << "[BREAKING] Failed to initialize file repository\n" << RST;
-		return -1;
+		return 1;
     }
 
     //--
@@ -170,13 +170,13 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!codeGenerator)
     {
 		std::cerr << KRED << "[BREAKING] Failed to create code generator\n" << RST;
-		return -1;
+		return 1;
     }
 
     if (!codeGenerator->extractProjects(structure))
     {
 		std::cerr << KRED << "[BREAKING] Failed to extract project structure into code generator\n" << RST;
-		return -1;
+		return 1;
     }
 
     //--
@@ -185,19 +185,19 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!codeGenerator->generateAutomaticCode(files))
     {
 		std::cerr << KRED << "[BREAKING] Failed to generate automatic code\n" << RST;
-		return -1;
+		return 1;
     }
 
 	if (!codeGenerator->generateSolution(files))
 	{
 		std::cerr << KRED << "[BREAKING] Failed to generate solution\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	if (!codeGenerator->generateProjects(files))
 	{
 		std::cerr << KRED << "[BREAKING] Failed to generate projects\n" << RST;
-		return -1;
+		return 1;
 	}
 
     //--
@@ -205,7 +205,7 @@ int ToolMake::run(const char* argv0, const Commandline& cmdline)
     if (!files.saveFiles())
     {
         std::cerr << KRED << "[BREAKING] Failed to save files\n" << RST;
-        return -1;
+        return 1;
     }
 
     //--

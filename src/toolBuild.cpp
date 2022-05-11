@@ -192,7 +192,7 @@ int ToolBuild::run(const char* argv0, const Commandline& cmdline)
 	if (!fs::is_regular_file(builderExecutablePath))
 	{
 		std::cerr << KRED << "[BREAKING] Invalid local executable name: " << builderExecutablePath << "\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	//--
@@ -206,7 +206,7 @@ int ToolBuild::run(const char* argv0, const Commandline& cmdline)
 			if (!fs::is_regular_file(testPath))
 			{
 				std::cerr << KRED "[BREAKING] Onion build tool run in a directory without \"" << BUILD_LIST_NAME << "\", specify path to a valid build list via -module\n";
- 				return -1;
+ 				return 1;
 			}
 			else
 			{
@@ -219,7 +219,7 @@ int ToolBuild::run(const char* argv0, const Commandline& cmdline)
 			if (!fs::is_regular_file(buildListPath))
 			{
 				std::cerr << KRED << "[BREAKING] Directory " << buildListPath << " does not contain '" << BUILD_LIST_NAME << "' file\n" << RST;
-				return -1;
+				return 1;
 			}
 		}
 	}
@@ -238,7 +238,7 @@ int ToolBuild::run(const char* argv0, const Commandline& cmdline)
 			{
 				std::cerr << KRED "[BREAKING] Unknown platform \"" << str << "\"\n" << RST;
 				std::cout << "Valid platforms are : " << PrintEnumOptions(DefaultPlatform()) << "\n";
-				return -1;
+				return 1;
 			}
 		}
 	}
@@ -249,7 +249,7 @@ int ToolBuild::run(const char* argv0, const Commandline& cmdline)
 	if (!buildList)
 	{
 		std::cerr << KRED "[BREAKING] Failed to load build list from " << buildListPath << "\n";
-		return -1;
+		return 1;
 	}
 
 	// collect configurations for selected platform
@@ -269,7 +269,7 @@ int ToolBuild::run(const char* argv0, const Commandline& cmdline)
 	// build configurations
 	for (const auto& cfg : buildConfigurations)
 		if (!BuildConfiguration(cfg, cmdline))
-			return -1;
+			return 1;
 
 	// done
 	return 0;

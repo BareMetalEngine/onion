@@ -147,7 +147,7 @@ int ToolEmbed::run(const char* argv0, const Commandline& cmdline)
     if (sourceFilePath.empty())
     {
         std::cout << "Embed file list must be specified by -source\n";
-        return -1;
+        return 1;
 	}
 	//std::cout << "SourcePath: \"" << sourceFilePath << "\"\n";
 
@@ -155,7 +155,7 @@ int ToolEmbed::run(const char* argv0, const Commandline& cmdline)
 	if (projectName.empty())
 	{
 		std::cout << "Reflection project name must be specified by -project\n";
-		return -1;
+		return 1;
 	}
 	//std::cout << "ProjectName: \"" << projectName << "\"\n";
 
@@ -163,7 +163,7 @@ int ToolEmbed::run(const char* argv0, const Commandline& cmdline)
 	if (outputFilePath.empty())
 	{
 		std::cout << "Reflection output file path must be specified by -output\n";
-		return -1;
+		return 1;
 	}
 	//std::cout << "OutputPath: \"" << outputFilePath << "\"\n";
 
@@ -171,16 +171,16 @@ int ToolEmbed::run(const char* argv0, const Commandline& cmdline)
 	if (relativeFilePath.empty())
 	{
 		std::cout << "Embed relative file name must be specified by -relative\n";
-		return -1;
+		return 1;
 	}
 	//std::cout << "RelativePath: \"" << relativeFilePath << "\"\n";
 
     FileGenerator files;
 	if (!writeFile(files, sourceFilePath, projectName, relativeFilePath, outputFilePath))
-		return -1;
+		return 1;
 
     if (!files.saveFiles(!nologo))
-        return -6;
+        return 2;
 
 	return 0;
 }

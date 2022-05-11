@@ -399,29 +399,29 @@ int ToolReflection::run(const char* argv0, const Commandline& cmdline)
     if (fileListPath.empty())
     {
         std::cout << "Reflection file list must be specified by -list\n";
-        return -1;
+        return 1;
     }    
 
 	std::string projectName = cmdline.get("project");
 	if (projectName.empty())
 	{
 		std::cout << "Reflection project name must be specified by -project\n";
-		return -1;
+		return 1;
 	}
 
 	std::string outputFilePath = cmdline.get("output");
 	if (outputFilePath.empty())
 	{
 		std::cout << "Reflection output file path must be specified by -output\n";
-		return -1;
+		return 1;
 	}
 
 	ProjectReflection reflection;
 	if (!reflection.extractFromArgs(fileListPath, projectName, outputFilePath))
-		return -2;
+		return 2;
 
     if (!reflection.filterProjects())
-        return -2;
+        return 2;
 
     if (reflection.files.empty() && reflection.projects.empty())
     {
@@ -430,19 +430,19 @@ int ToolReflection::run(const char* argv0, const Commandline& cmdline)
     }
 
 	if (!reflection.tokenizeFiles())
-		return -3;
+		return 3;
 
 	if (!reflection.parseDeclarations())
-		return -4;
+		return 4;
 
 	std::cout << "Generating reflection files...\n";
 
     FileGenerator files;
 	if (!reflection.generateReflection(files))
-		return -5;
+		return 5;
 
     if (!files.saveFiles())
-        return -6;
+        return 6;
 
 	return 0;
 }

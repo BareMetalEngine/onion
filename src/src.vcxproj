@@ -110,7 +110,6 @@
     <ClCompile Include="solutionGenerator.cpp" />
     <ClCompile Include="solutionGeneratorCMAKE.cpp" />
     <ClCompile Include="solutionGeneratorVS.cpp" />
-    <ClCompile Include="toolAutoRelease.cpp" />
     <ClCompile Include="toolBuild.cpp" />
     <ClCompile Include="toolConfigure.cpp" />
     <ClCompile Include="toolEmbed.cpp" />
@@ -149,7 +148,6 @@
     <ClInclude Include="solutionGenerator.h" />
     <ClInclude Include="solutionGeneratorCMAKE.h" />
     <ClInclude Include="solutionGeneratorVS.h" />
-    <ClInclude Include="toolAutoRelease.h" />
     <ClInclude Include="toolBuild.h" />
     <ClInclude Include="toolConfigure.h" />
     <ClInclude Include="toolEmbed.h" />

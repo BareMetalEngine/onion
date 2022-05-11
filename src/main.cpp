@@ -8,7 +8,6 @@
 #include "toolLibrary.h"
 #include "toolRelease.h"
 #include "toolGlueFiles.h"
-#include "toolAutoRelease.h"
 
 static bool NeedsQuotes(std::string_view txt)
 {
@@ -68,7 +67,7 @@ int main(int argc, char** argv)
     {
 		std::cout << "Onion Build Tool v1.0\n";
         PrintUsage(argv[0]);
-        return -1;
+        return 1;
     }
 
     if (!cmdLine.has("nologo"))
@@ -112,11 +111,6 @@ int main(int argc, char** argv)
 		ToolRelease tool;
 		return tool.run(argv[0], cmdLine);
 	}
-	else if (tool == "autoRelease")
-	{
-		ToolAutoRelease tool;
-		return tool.run(argv[0], cmdLine);
-	}
 	else if (tool == "glue")
 	{
 		ToolGlueFiles tool;
@@ -126,7 +120,7 @@ int main(int argc, char** argv)
     {
         std::cerr << "Unknown tool specified :(\n\n";
         PrintUsage(argv[0]);
-        return -1;
+        return 1;
     }
 
     return 0;

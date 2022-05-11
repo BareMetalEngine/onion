@@ -378,7 +378,7 @@ int ToolRelease::run(const char* argv0, const Commandline& cmdline)
 	if (!fs::is_regular_file(builderExecutablePath))
 	{
 		std::cerr << KRED << "[BREAKING] Invalid local executable name: " << builderExecutablePath << "\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	const auto path = fs::absolute(fs::path(cmdline.get("releasePath", ".")).make_preferred());
@@ -388,39 +388,39 @@ int ToolRelease::run(const char* argv0, const Commandline& cmdline)
 	if (!git.init(cmdline))
 	{
 		std::cerr << KRED << "[BREAKING] Failed to initialize GitHub helper\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	// run action
 	if (action == "create")
 	{
 		if (!Release_Create(git, cmdline))
-			return -1;
+			return 1;
 	}
 	else if (action == "discard")
 	{
 		if (!Release_Discard(git, cmdline))
-			return -1;
+			return 1;
 	}
 	else if (action == "publish")
 	{
 		if (!Release_Publish(git, cmdline))
-			return -1;
+			return 1;
 	}
 	else if (action == "list")
 	{
 		if (!Release_List(git, cmdline))
-			return -1;
+			return 1;
 	}
 	else if (action == "add")
 	{
 		if (!Release_AddArtifact(git, cmdline))
-			return -1;
+			return 1;
 	}
 	else
 	{
 		std::cerr << KRED << "[BREAKING] Unknown release action '" << action << "'\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	return 0;

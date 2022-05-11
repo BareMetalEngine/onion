@@ -225,14 +225,14 @@ int ToolGlueFiles::run(const char* argv0, const Commandline& cmdline)
 		if (str.empty())
 		{
 			std::cerr << KRED << "[BREAKING] Missing target file path (-file)\n" << RST;
-			return -1;
+			return 1;
 		}
 
 		targetFilePath = fs::absolute(str).make_preferred();
 		if (!fs::is_regular_file(targetFilePath))
 		{
 			std::cerr << KRED << "[BREAKING] File at " << targetFilePath << " does not exist\n" << RST;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -242,27 +242,27 @@ int ToolGlueFiles::run(const char* argv0, const Commandline& cmdline)
 	if (action == "list")
 	{
 		if (!GlueFile_List(targetFilePath))
-			return -1;
+			return 1;
 	}
 	else if (action == "clear")
 	{
 		if (!GlueFile_Clear(targetFilePath))
-			return -1;
+			return 1;
 	}
 	else if (action == "pack")
 	{
 		if (!GlueFile_Pack(targetFilePath, cmdline))
-			return -1;
+			return 1;
 	}
 	else if (action == "unpack")
 	{
 		if (!GlueFile_Unpack(targetFilePath, cmdline))
-			return -1;
+			return 1;
 	}
 	else
 	{
 		std::cerr << KRED << "[BREAKING] Unknown glue action '" << action << "'\n" << RST;
-		return -1;
+		return 1;
 	}
 
 	return 0;

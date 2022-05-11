@@ -646,7 +646,7 @@ bool SolutionGenerator::generateProjectAppMainSourceFile(const SolutionProject* 
         writeln(f, "  if (!commandLine.parse(pCmdLine, false))");
     else
         writeln(f, "  if (!commandLine.parse(argc, argv)) {");
-    writeln(f, "    return -1;");
+    writeln(f, "    return 1;");
     writeln(f, "");
 
     // profiling init
@@ -661,7 +661,7 @@ bool SolutionGenerator::generateProjectAppMainSourceFile(const SolutionProject* 
     {
         writeln(f, "  if (!bm::InitTaskThreads(commandLine)) {");
         writeln(f, "    bm::CloseProfiling();");
-        writeln(f, "    return -1;");
+        writeln(f, "    return 1;");
         writeln(f, "  }");
         writeln(f, "");
     }
@@ -673,7 +673,7 @@ bool SolutionGenerator::generateProjectAppMainSourceFile(const SolutionProject* 
         writelnf(f, "  if (app.init(commandLine)) {");
         writelnf(f, "    while (app.update()) {};");
         writeln (f, "  } else {" );
-        writelnf(f, "    ret = -1;");
+        writelnf(f, "    ret = 1;");
         writeln (f, "  }");
         writeln(f, "");
     }
