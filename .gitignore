@@ -1,10 +1,1 @@
-bin
-.build
-.gittoken
-.gittoken_
-.release
-.release_token
-.publish
-.temp
-.vs
-*.user
+.bin
