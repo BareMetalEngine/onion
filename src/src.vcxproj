@@ -118,6 +118,7 @@
     <ClCompile Include="toolMake.cpp" />
     <ClCompile Include="toolRelease.cpp" />
     <ClCompile Include="toolReflection.cpp" />
+    <ClCompile Include="toolSign.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="project.h" />
     <ClInclude Include="projectCollection.h" />
     <ClInclude Include="projectManifest.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="solutionGenerator.h" />
     <ClInclude Include="solutionGeneratorCMAKE.h" />
     <ClInclude Include="solutionGeneratorVS.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="toolMake.h" />
     <ClInclude Include="toolRelease.h" />
     <ClInclude Include="toolReflection.h" />
+    <ClInclude Include="toolSign.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="xmlUtils.h" />
     <ClInclude Include="xml\rapidxml.hpp" />
@@ -165,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\base\config\build.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

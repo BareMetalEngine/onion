@@ -41,6 +41,7 @@ list(APPEND FILE_SOURCES "src/toolBuild.cpp")
 list(APPEND FILE_SOURCES "src/toolLibrary.cpp")
 list(APPEND FILE_SOURCES "src/toolRelease.cpp")
 list(APPEND FILE_SOURCES "src/toolGlueFiles.cpp")
+list(APPEND FILE_SOURCES "src/toolSign.cpp")
 list(APPEND FILE_SOURCES "src/utils.cpp")
 list(APPEND FILE_SOURCES "src/git.cpp")
 list(APPEND FILE_SOURCES "src/json.cpp")
@@ -56,9 +57,10 @@ if (NOT WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+
+    list(APPEND FILE_SOURCES "src/resources.rc")
+    set_source_files_properties("src/resources.rc" LANGUAGE RC)
 endif()
-
-
 
 add_executable(onion ${FILE_SOURCES})
 
