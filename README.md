@@ -1,6 +1,8 @@
 # What is this?
 This repository contains compiled binaries for Onion Build Tool
 
+[![Build Onion Tool](https://github.com/BareMetalEngine/onion_tool/actions/workflows/push.yml/badge.svg?branch=main)](https://github.com/BareMetalEngine/onion_tool/actions/workflows/push.yml)
+
 Original source code this tool could be found here: [Onion Build Tool](https://github.com/BareMetalEngine/onion_tool/).
 
 *NOTE*: Since the onion.exe contains additional executables and other files packed inside it Windows Defender may complain about it. I'm working on code-signing the executable to alleviate this problem.
